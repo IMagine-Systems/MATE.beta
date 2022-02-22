@@ -54,7 +54,7 @@ const list_obj = { // 티켓 목록 정보들
 };
 */
 
-export default function Iformation({ navigation }) { // 정보 메인 부분
+export default function Main({ navigation }) { // 정보 메인 부분
     
     // state 영역
     const [ all_selecting, setAllSelect ] = useState(false);
@@ -107,6 +107,82 @@ export default function Iformation({ navigation }) { // 정보 메인 부분
         });
     
     };
+
+    // 티켓 생성
+    const Create = () => {
+        if (startInputText != null && endInputText != null) {
+            const myDoc = doc(db, "CollectionNameCarpoolTicket", "CarpoolTicketDocument");
+
+            // 티켓이 아무것도 없을경우 실행
+            if (userDoc.Count === 0) {
+                // 카풀, 택시 둘중 하나가 선택일 경우 그중 하나를 티켓이름으로 정한다.
+                if (carpool_selecting === true) {
+                    docData.CarpoolTicket[0].ticket_name = "카풀";
+                }
+                else {
+                    docData.CarpoolTicket[0].ticket_name = "택시";
+                }
+                docData.CarpoolTicket[0].nickname = "Son";
+                docData.CarpoolTicket[0].department = "항공소프트웨어공학과"
+                docData.CarpoolTicket[0].arrival_area = startInputText; // 출발지
+                docData.CarpoolTicket[0].depart_area = endInputText; // 도착지
+                docData.CarpoolTicket[0].departure_time = "09:30";
+                docData.CarpoolTicket[0].day = "2022/02/22";
+                docData.CarpoolTicket[0].carpool_id += 1;
+                docData.CarpoolTicket[0].recruitment_count += 1;
+                docData.Count = userDoc.Count + 1;
+
+                setDoc(myDoc, docData, {merge: true})
+                .then(() => {
+                    alert("Successed Make a Ticket");
+                })
+                .catch((error) => {
+                    alert(error.messeage);
+                });
+            }
+            else {
+                Read();
+                if (carpool_selecting === true) {
+                    docData.CarpoolTicket[0].ticket_name = "카풀";
+                    docData.CarpoolTicket[0].nickname = "Son";
+                    docData.CarpoolTicket[0].department = "항공소프트웨어공학과"
+                    docData.CarpoolTicket[0].arrival_area = startInputText; // 출발지
+                    docData.CarpoolTicket[0].depart_area = endInputText; // 도착지
+                    docData.CarpoolTicket[0].departure_time = "09:30";
+                    docData.CarpoolTicket[0].day = "2022/02/22";
+                    docData.CarpoolTicket[0].carpool_id = 1000 + userDoc.Count;
+                    docData.CarpoolTicket[0].recruitment_count = 1;
+                    docData.Count = userDoc.Count + 1;
+
+                    updateDoc(myDoc, {"CarpoolTicket": arrayUnion(docData.CarpoolTicket[0]), "Count": userDoc.Count}, {merge: true})
+                    .then(() => {
+                        alert("Successed Update Ticket");
+                    })
+                    .catch((error) => alert(error.messeage));
+                }
+                else {
+                    docData.CarpoolTicket[0].ticket_name = "택시";
+                    docData.CarpoolTicket[0].nickname = "Son";
+                    docData.CarpoolTicket[0].department = "항공소프트웨어공학과"
+                    docData.CarpoolTicket[0].arrival_area = startInputText; // 출발지
+                    docData.CarpoolTicket[0].depart_area = endInputText; // 도착지
+                    docData.CarpoolTicket[0].departure_time = "09:30";
+                    docData.CarpoolTicket[0].day = "2022/02/22";
+                    docData.CarpoolTicket[0].carpool_id = 1000 + userDoc.Count;
+                    docData.CarpoolTicket[0].recruitment_count = 1;
+                    docData.Count = userDoc.Count + 1;
+
+                    updateDoc(myDoc, {"TaxiTicket": arrayUnion(docData.CarpoolTicket[0]), "Count": userDoc.Count}, {merge: true})
+                    .then(() => {
+                        alert("Successed Update Ticket");
+                    })
+                    .catch((error) => alert(error.messeage));
+                }
+                
+            }
+
+        }
+    }
 
     const all_select = () => { // 전체 선택을 눌렀을 때 호출
         setAllSelect(true);
@@ -505,7 +581,7 @@ export default function Iformation({ navigation }) { // 정보 메인 부분
         <View style={styles.footer}>
             <Fontisto name="comment" size={24} color="black" style={styles.messege_icon}/>
             <Fontisto name="home" size={24} color="black" style={styles.home_icon}/>
-            <TouchableOpacity onPress={createTicketButton} >
+            <TouchableOpacity onPress={Create} >
                 <Fontisto name="plus-a" size={24} color="black" style={styles.plus_icon}/>
             </TouchableOpacity>
             <Fontisto name="bookmark" size={24} color="black" style={styles.save_icon}/>
