@@ -1,62 +1,35 @@
+// 모듈 불러오는 부분
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, FlatList } from "react-native";
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown'; // dropdown 모듈 불러오기
+
+// DB관련
 // firebase db를 불러올려고 한다.
 import { db } from './Database/DatabaseConfig/firebase';
 // db 데이터 입출력 API 불러오기
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 // 기본 데이터 불러오기 (CarpoolTicket, TexiTicket)
 import { CarpoolTicket } from'./Database/Data/Ticket/carpoolData';
+// 회원정보 데이터
 import { UserInfo } from'./Database/Data/User/userInfo';
 
+// 드롭 다운
 // 드롭다운 항목들 이다.
 const localList = ["경운대", "인동"] // 선택 할 수 있는 지역
 
 // 기본 데이터 선언
+// docData : 카풀데이터이며 빈데이터로 구성 되어있다. 
 const docData = CarpoolTicket; 
+
+// 회원정보 데이터 (아직 데이터 설계 안되어 있음.)
 //const userDocData = UserInfo;
-
-/*
-const list_obj = { // 티켓 목록 정보들 
-    전체: [
-        {
-            카풀: {
-                name : ['Son'],
-                department: ['항공소프트웨어공학과'], // 학과
-                startLocal: [],
-                endLocal: ['고려대'],
-            }
-        },
-        {
-            택시: {
-                name : ['Son'],
-                department: ['항공소프트웨어공학과'], // 학과
-                startLocal:[],
-                endLocal:['서울대'],
-            },
-        },
-    ],
-
-    카풀: {
-        name : ['Son'],
-        department: ['항공소프트웨어공학과'], // 학과
-        startLocal: [],
-        endLocal: ['고려대'],
-    },
-    택시: {
-        name : ['Son'],
-        department: ['항공소프트웨어공학과'], // 학과
-        startLocal:[],
-        endLocal:['서울대'],
-    },
-};
-*/
 
 export default function Main({ navigation }) { // 정보 메인 부분
     
     // state 영역
+    // 버튼 전체, 카풀, 택시 선택 했는지를 state로 선언 하였다.
     const [ all_selecting, setAllSelect ] = useState(false);
     const [ carpool_selecting, setCarpoolSelect ] = useState(true); // 카풀 선택일때 true, 아니면 false
     const [ taxi_selecting, setTaxiSelect ] = useState(false); //택시 선택일때 true, 아니면 false
@@ -68,14 +41,18 @@ export default function Main({ navigation }) { // 정보 메인 부분
     // firebase 문서로 부터 데이터를 읽으면 userDoc state에 선언 할려고 한다.
     const [ userDoc, setUserDoc ] = useState(null);
 
+    /*
+    지금은 입력창 대신 드롭다운으로 했으므로 일단은 주석으로 남겼다. 
     // 출발지, 도착지, 닉네임, 학과, 텍스트 받을 state
     const [ arrivalAreaText, setArrivalAreaText ] = useState(""); // 출발지 텍스트
     const [ departAreaText, setDepartAreaText ] = useState(""); // 도착지 텍스트
     const [ nicknameText, setNicknameText ] = useState(""); // 닉네임 텍스트
     const [ departmentText, setDepartmentText ] = useState(""); // 학과 텍스트 
-
+    */
 
     // useEffect 처음 앱실행 했을때 테이블을 불러온다.
+    // useEffect 실행 했을때 티켓 정보들이 나온다.
+
     useEffect (() => {
         Read(); // Firebase의 문서들을 불러온다.
         //selectCarpoolTicket();
@@ -85,6 +62,9 @@ export default function Main({ navigation }) { // 정보 메인 부분
     // Database Read 부분
     const Read = ()  => {
         // Reading Doc
+        // doc(firebase 경로, "컬랙션 이름", "문서 이름")
+        // myDoc 변수는 firebase CarpoolTicketDocument 문서로 가르켜 준다.
+
         const myDoc = doc(db, "CollectionNameCarpoolTicket", "CarpoolTicketDocument");
         //const userInfoDoc = doc(db, "CollectionNameCarpoolTicket", "UserInfo");
 
@@ -103,7 +83,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
           }
         })
         .catch((error) => {
-          //alert(error.message);
+          alert(error.message);
         });
     
     };
@@ -114,6 +94,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
             const myDoc = doc(db, "CollectionNameCarpoolTicket", "CarpoolTicketDocument");
 
             // 티켓이 아무것도 없을경우 실행
+            // userDoc 변수는 firebase 문서의 데이터로 가르키고 있다.
             if (userDoc.Count === 0) {
                 // 카풀, 택시 둘중 하나가 선택일 경우 그중 하나를 티켓이름으로 정한다.
                 if (carpool_selecting === true) {
@@ -200,38 +181,12 @@ export default function Main({ navigation }) { // 정보 메인 부분
         setCarpoolSelect(false);
         setTaxiSelect(true)
     };
-
-    const pushLikeButton = () => {
-        if (likeButton <  4) {
-            setLikeButton(likeButton + 1);
-        }
-    }
-    /*
-    const onChangeStartText = (text) => {
-        setStartInputText(text);
-        
-    }
-    const onChangeEndText = (text) => {
-        setEndInputText(text);
-        
-    }
-    */
-
-    function selectName() {
-        if (all_selecting === true) {
-            return(Object.keys(list_obj)[0]);
-        }
-        else if (carpool_selecting === true) {
-            return (Object.keys(list_obj)[1]); // 키값 배열중 요소 선택
-        }
-        else if (taxi_selecting === true) {
-            return (Object.keys(list_obj)[2]);
-        }
-    }
     
+    // 티켓을 보여주는 부분(Ticket UI)
     function selectCarpoolTicket() {
         if (all_selecting === true) { // 전체창 눌렀을때 티켓을 보여주는 부분이다.
             
+            // 전체 버튼으로 눌렀을경우 택시, 카풀 티켓들을 보여준다.
             if (userDoc != null) {
                 return ([
                     userDoc.CarpoolTicket.map(key => (
@@ -286,63 +241,8 @@ export default function Main({ navigation }) { // 정보 메인 부분
 
                 );
             }
-            
-            
-            /*
-            let cnt1 = 0; // 카풀 카운트
-            let cnt2 = 0; // 택시 카운트
-            return ([
-                list_obj['카풀']['name'].map(key => (
-                    <View style={{alignItems: "center",}}>
-                        <View style={styles.carpool_text}>
-                            <Image style={styles.info_profile} source={require('./profile_img1.jpeg')}/>
-                            <View style={styles.info_text_container}>
-                                <Text style={styles.info_text1}>{key}</Text> 
-                                <Text style={styles.info_text2}>{list_obj['카풀']['department'][cnt1]}</Text>
-                            </View>
-                   
-                            <View style={styles.info_carpool_container}>
-                                <Text style={styles.info_carpool_text}>카풀</Text> 
-                                <View style={styles.pointvar}/>
-                            </View>
-                    
-                            <View>
-                                <Text style={styles.info_text_local}>{list_obj['카풀']['endLocal'][cnt1++]}</Text>
-                                <Text style={styles.info_time_text}>09:40</Text>
-                            </View>
-                            <View style={styles.count_container}>
-                                <Text>1/4</Text>
-                            </View>
-                        </View>
-                    </View>
-                )),
-                list_obj['택시']['name'].map(key => (
-                    <View style={{alignItems: "center",}}>
-                        <View style={styles.carpool_text}>
-                            <Image style={styles.info_profile} source={require('./profile_img1.jpeg')}/>
-                            <View style={styles.info_text_container}>
-                                <Text style={styles.info_text1}>{key}</Text> 
-                                <Text style={styles.info_text2}>{list_obj['택시']['department'][cnt2]}</Text>
-                            </View>
-                   
-                            <View style={styles.info_carpool_container}>
-                                <Text style={styles.info_carpool_text}>택시</Text> 
-                                <View style={styles.pointvar}/>
-                            </View>
-                    
-                            <View>
-                                <Text style={styles.info_text_local}>{list_obj['택시']['endLocal'][cnt2++]}</Text>
-                                <Text style={styles.info_time_text}>09:40</Text>
-                            </View>
-                            <View style={styles.count_container}>
-                                <Text>1/4</Text>
-                            </View>
-                        </View>
-                    </View>
-                ))
-            ]);
-            */
         }
+        // 카풀 버튼눌렀을 경우 카풀티켓만 보여줌. 
         else if (carpool_selecting === true) {
             if (userDoc != null) {
                 return (
@@ -373,6 +273,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
                 );
             }
         }
+        // 택시 버튼 눌렀을 경우 택시 티켓들만 보여준다.
         else if (taxi_selecting === true) {
             if (userDoc != null) {
                 return (
@@ -402,30 +303,6 @@ export default function Main({ navigation }) { // 정보 메인 부분
                     ))
                 );
             }
-        }
-    }
-    
-
-    // +아이콘 눌렀을때 출발, 도착 지점을 받아오는 함수이다.
-    function createTicketButton() {
-
-        if (carpool_selecting === true) {
-            // list_obj.카풀.startLocal.push(startInputText);
-            // list_obj.카풀.endLocal.push(endInputText);
-            // list_obj.카풀.name.push('Son');
-            // list_obj.카풀.department.push('항공소프트어공학과');
-            // selectCarpoolTicket();
-            // console.log(list_obj.카풀.startLocal, list_obj.카풀.name);
-            //selectCarpoolTicket();
-        }
-        else if (taxi_selecting === true) {
-            // list_obj.택시.startLocal.push(startInputText);
-            // list_obj.택시.endLocal.push(endInputText);
-            // list_obj.택시.name.push('Son');
-            // list_obj.택시.department.push('항공소프트어공학과');
-            // selectCarpoolTicket();
-            // console.log(list_obj.택시.startLocal, list_obj.택시.endLocal);
-            //selectCarpoolTicket();
         }
     }
 
