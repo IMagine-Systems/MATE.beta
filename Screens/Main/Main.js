@@ -7,13 +7,13 @@ import SelectDropdown from 'react-native-select-dropdown'; // dropdown 모듈 �
 
 // DB관련
 // firebase db를 불러올려고 한다.
-import { db } from './Database/DatabaseConfig/firebase';
+import { db } from '../../Database/DatabaseConfig/firebase';
 // db 데이터 입출력 API 불러오기
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 // 기본 데이터 불러오기 (CarpoolTicket, TexiTicket)
-import { CarpoolTicket } from'./Database/Data/Ticket/carpoolData';
+import { CarpoolTicket } from'../../Database/Data/Ticket/carpoolData';
 // 회원정보 데이터
-import { UserInfo } from'./Database/Data/User/userInfo';
+import { UserInfo } from'../../Database/Data/User/userInfo';
 
 // 드롭 다운
 // 드롭다운 항목들 이다.
@@ -192,7 +192,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
                     userDoc.CarpoolTicket.map(key => (
                         <View style={{alignItems: "center",}}>
                           <View style={styles.carpool_text}>
-                            <Image style={styles.info_profile} source={require('./profile_img1.jpeg')}/>
+                            <Image style={styles.info_profile} source={require('../../profile_img1.jpeg')}/>
                             <View style={styles.info_text_container}>
                                 <Text style={styles.info_text1}>{key.nickname}</Text> 
                                 <Text style={styles.info_text2}>{key.department}</Text>
@@ -216,7 +216,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
                     userDoc.TaxiTicket.map(key => (
                         <View style={{alignItems: "center",}}>
                           <View style={styles.carpool_text}>
-                            <Image style={styles.info_profile} source={require('./profile_img1.jpeg')}/>
+                            <Image style={styles.info_profile} source={require('../../profile_img1.jpeg')}/>
                             <View style={styles.info_text_container}>
                                 <Text style={styles.info_text1}>{key.nickname}</Text> 
                                 <Text style={styles.info_text2}>{key.department}</Text>
@@ -249,7 +249,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
                     userDoc.CarpoolTicket.map(key => (
                         <View style={{alignItems: "center",}}>
                           <View style={styles.carpool_text}>
-                            <Image style={styles.info_profile} source={require('./profile_img1.jpeg')}/>
+                            <Image style={styles.info_profile} source={require('../../profile_img1.jpeg')}/>
                             <View style={styles.info_text_container}>
                                 <Text style={styles.info_text1}>{key.nickname}</Text> 
                                 <Text style={styles.info_text2}>{key.department}</Text>
@@ -280,7 +280,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
                     userDoc.TaxiTicket.map(key => (
                         <View style={{alignItems: "center",}}>
                           <View style={styles.carpool_text}>
-                            <Image style={styles.info_profile} source={require('./profile_img1.jpeg')}/>
+                            <Image style={styles.info_profile} source={require('../../profile_img1.jpeg')}/>
                             <View style={styles.info_text_container}>
                                 <Text style={styles.info_text1}>{key.nickname}</Text> 
                                 <Text style={styles.info_text2}>{key.department}</Text>
