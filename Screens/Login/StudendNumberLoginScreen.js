@@ -1,8 +1,10 @@
+// 학번 로그인 컴포넌트이다.
+
 import { View, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { Input, Button } from 'react-native-elements';
 
-const LoginScreen = ({navigation}) => {
+const StudendNumberLoginScreen = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
   return (
@@ -28,7 +30,7 @@ const LoginScreen = ({navigation}) => {
   )
 }
 
-export default LoginScreen
+export default StudendNumberLoginScreen
 
 const styles = StyleSheet.create({
     button: {
