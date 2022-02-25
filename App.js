@@ -12,6 +12,7 @@ const Stack = createStackNavigator();
 export default class App extends React.Component {
     
     render() {
+
         return (
           <NavigationContainer>
             <Stack.Navigator
