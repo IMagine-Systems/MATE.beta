@@ -1,0 +1,2 @@
+expo install react-native-safe-area-context
+//expo install react-native-gesture-handler

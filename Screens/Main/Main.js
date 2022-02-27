@@ -15,7 +15,6 @@ import { CarpoolTicket } from'../../Database/Data/Ticket/carpoolData';
 // 회원정보 데이터
 import { UserInfo } from'../../Database/Data/User/userInfo';
 
-// 드롭 다운
 // 드롭다운 항목들 이다.
 const localList = ["경운대", "인동"] // 선택 할 수 있는 지역
 

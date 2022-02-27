@@ -1,8 +1,7 @@
-// 학번 로그인 컴포넌트이다.
-
-import { View, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { Input, Button } from 'react-native-elements';
+import { Text, View, StyleSheet } from 'react-native'
+import { Input} from 'react-native-elements';
+import { TouchableOpacity } from "react-native-gesture-handler";
 // firebase db 경로 불러오기
 import { db } from '../../Database/DatabaseConfig/firebase';
 // firebase db read 모듈 불러오기
@@ -12,17 +11,17 @@ import { UserInfo } from '../../Database/Data/User/userInfo';
 
 
 const StudendNumberLoginScreen = ({navigation}) => {
-    const [studentNumber, SetStudentNumber] = useState(''); // 학번
-    const [password, SetPassword] = useState(''); // 비밀번호
+    const [studentNumber, SetStudentNumber] = useState('');     // 학번
+    const [password, SetPassword] = useState('');               // 비밀번호
     const [signIn, SetSignIn] = useState(false);
 
-    let readDoc = {}; // firebase에서 읽어온 데이터를 선언 할 변수이다.
-    let userInfoDatas = [];
+    let readDoc = {};                         // firebase에서 읽어온 데이터를 선언 할 변수이다.
+    let userInfoDatas = [];                   // firebase에서 유저 
 
     // firebase db 회원정보 불러오기, 로그인 기능 포함
     const Read = () => {
       // 회원정보 문서 db 불러오기
-      const myDoc = doc(db, 'CollectionNameCarpoolTicket', 'UserInfo'); 
+      const myDoc = doc(db, 'CollectionNameCarpoolTicket', 'UserInfo');           //???
 
       getDoc(myDoc)
       .then((snapshot) => {
@@ -68,19 +67,20 @@ const StudendNumberLoginScreen = ({navigation}) => {
         leftIcon={{ type: 'material', name: 'school'}}   //name: 에 알맞는 명령어 입력시 아이콘 변경됨
         value={studentNumber}
         onChangeText={Text => SetStudentNumber(Text)}
-        />
-       <Input
+      />
+
+      <Input
         placeholder='비밀번호를 입력해 주세요'
         label="비밀번호"
         leftIcon={{ type: 'material', name: 'lock'}} 
         value={password}
         onChangeText={Text => SetPassword(Text)}
-        secureTextEntry //글자를 ***로 변경해줌
-        />
-       <Button 
-        title='로그인' 
-        style={styles.button} 
-        onPress={
+        secureTextEntry                                 //글자를 ***로 변경해줌
+      />
+
+     
+    <View style={styles.buttonGap}>
+      <TouchableOpacity style={styles.buttonStyle} onPress={
           () => {
             // 로그인 (학번을 보고 읽어온 회원 db를 하나씩 비교하는 알고리즘으로 설계 하였다.)
             Read();
@@ -92,8 +92,14 @@ const StudendNumberLoginScreen = ({navigation}) => {
               alert("학번 또는 비밀번호 잘못 입력 했습니다.");
             }
           }
-        } />
-       <Button title='회원가입' style={styles.button} onPress={() => navigation.navigate("SignUpScreen")} />
+        }>
+        <Text style= {styles.SignUpText}>로그인</Text>
+      </TouchableOpacity>  
+      </View>
+
+      <TouchableOpacity style={styles.buttonStyle} onPress={() => navigation.navigate("SignUpScreen")}>
+        <Text style= {styles.SignUpText}>회원가입</Text>
+      </TouchableOpacity>  
     </View>
   )
 }
@@ -101,14 +107,25 @@ const StudendNumberLoginScreen = ({navigation}) => {
 export default StudendNumberLoginScreen
 
 const styles = StyleSheet.create({
-    button: {
-        width: 200,
-        marginTop: 10
-    },
-    container: {
-        flex:1,
-        //alignContent:'center' 
-        alignItems: 'center',           //중앙으로 옮김 정확한 명령어 의미 필요
-        justifyContent: 'center'        //중앙으로 옮김 정확한 명령어 의미 필요
-    }
+  container: {
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  //
+  buttonStyle: {
+    justifyContent: 'center',              //Text 중앙
+    alignItems: 'center',                  //Text 중앙
+    height: 52,                            //버튼 높이
+    width: 300,                            //버튼 넓이
+    borderRadius:17,
+    backgroundColor: "#007AFF",
+  },
+  buttonGap: {
+    marginBottom: 15,
+  },
+  SignUpText: {
+    fontSize: 17,
+    color: "#FFFFFF",
+  },
 });
