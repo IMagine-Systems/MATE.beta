@@ -19,6 +19,9 @@ const StudendNumberLoginScreen = ({navigation}) => {
     let readDoc = {}; // firebase에서 읽어온 데이터를 선언 할 변수이다.
     let userInfoDatas = [];
 
+    // 회원정보 기본데이터를 UserInfoDefaultData 변수로 선언 (로그인 성공하면 학번, 학과, 이름 값을 넣을 예정 (티켓 생성 할때 유용 할것 같다,))
+    const UserInfoDefaultData = UserInfo.UserInfo[0];
+
     // firebase db 회원정보 불러오기, 로그인 기능 포함
     const Read = () => {
       // 회원정보 문서 db 불러오기
@@ -30,10 +33,16 @@ const StudendNumberLoginScreen = ({navigation}) => {
           readDoc = snapshot.data();
           userInfoDatas = readDoc.UserInfo;
           console.log(userInfoDatas[0]);
-
+          
           for (let i = 0; i < userInfoDatas.length; i++) {
+            // 로그인 성공
             if (userInfoDatas[i].student_number === studentNumber && userInfoDatas[i].password === password) {
               SetSignIn(true);
+              UserInfoDefaultData.nickname = userInfoDatas[i].nickname;
+              UserInfoDefaultData.student_number = userInfoDatas[i].student_number;
+              UserInfoDefaultData.department = userInfoDatas[i].department;
+
+              console.log("회원정보 기본데이터 값 : ", UserInfoDefaultData);
             }
           }
         }

@@ -56,6 +56,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
     useEffect (() => {
         Read(); // Firebase의 문서들을 불러온다.
         //selectCarpoolTicket();
+        console.log("메인 화면 : ", UserInfo.UserInfo[0]);
     },[]);
 
 
@@ -125,8 +126,8 @@ export default function Main({ navigation }) { // 정보 메인 부분
                 Read();
                 if (carpool_selecting === true) {
                     docData.CarpoolTicket[0].ticket_name = "카풀";
-                    docData.CarpoolTicket[0].nickname = "Son";
-                    docData.CarpoolTicket[0].department = "항공소프트웨어공학과"
+                    docData.CarpoolTicket[0].nickname = UserInfo.UserInfo[0].nickname; // 닉네임
+                    docData.CarpoolTicket[0].department = UserInfo.UserInfo[0].department // 학과
                     docData.CarpoolTicket[0].arrival_area = startInputText; // 출발지
                     docData.CarpoolTicket[0].depart_area = endInputText; // 도착지
                     docData.CarpoolTicket[0].departure_time = "09:30";
@@ -143,8 +144,8 @@ export default function Main({ navigation }) { // 정보 메인 부분
                 }
                 else {
                     docData.CarpoolTicket[0].ticket_name = "택시";
-                    docData.CarpoolTicket[0].nickname = "Son";
-                    docData.CarpoolTicket[0].department = "항공소프트웨어공학과"
+                    docData.CarpoolTicket[0].nickname = UserInfo.UserInfo[0].nickname; // 닉네임
+                    docData.CarpoolTicket[0].department = UserInfo.UserInfo[0].department;  // 학과
                     docData.CarpoolTicket[0].arrival_area = startInputText; // 출발지
                     docData.CarpoolTicket[0].depart_area = endInputText; // 도착지
                     docData.CarpoolTicket[0].departure_time = "09:30";
