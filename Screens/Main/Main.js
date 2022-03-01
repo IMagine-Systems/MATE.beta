@@ -1,10 +1,10 @@
 // 모듈 불러오는 부분
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity, FlatList } from "react-native";
+// 아이콘(원격주소) 불러오기
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown'; // dropdown 모듈 불러오기
-
 // DB관련
 // firebase db를 불러올려고 한다.
 import { db } from '../../Database/DatabaseConfig/firebase';
@@ -450,20 +450,29 @@ export default function Main({ navigation }) { // 정보 메인 부분
                 
         </View>
 
-        <ScrollView style={styles.carpool}>
-            <View style={{alignItems: "center",}}>
-                {selectCarpoolTicket()}
-            </View>
-        </ScrollView>
+        <View style={styles.carpool}>
+            <ScrollView>
+                <View style={{alignItems: "center",}}>
+                    {selectCarpoolTicket()}
+                </View>
+            </ScrollView>
+        </View>
 
         <View style={styles.footer}>
             <Fontisto name="comment" size={24} color="black" style={styles.messege_icon}/>
+            
             <Fontisto name="home" size={24} color="black" style={styles.home_icon}/>
+            
             <TouchableOpacity onPress={Create} >
                 <Fontisto name="plus-a" size={24} color="black" style={styles.plus_icon}/>
             </TouchableOpacity>
+            
             <Fontisto name="bookmark" size={24} color="black" style={styles.save_icon}/>
-            <Ionicons name="person-outline" size={24} color="black" style={styles.profile_icon}/>
+            
+            <TouchableOpacity onPress={() => navigation.navigate("ProfileScreen")}>
+                <Ionicons name="person-outline" size={24} color="black" style={styles.profile_icon}/>
+            </TouchableOpacity>
+            
         </View>
     </View>
   );
@@ -475,20 +484,21 @@ const styles = StyleSheet.create({
         backgroundColor: '#E5E5E5',
     },
     search: {
-        flex: 0.5,
+        flex: 0.4,
         backgroundColor: '#315EFF',
         borderBottomLeftRadius: 40,
     },
     carpool: {
-        flex: 3,
+        flex: 0.5,
         backgroundColor: '#E5E5E5',
         marginTop: 14,
     },
     footer: {
-        flex: 0.3,
+        flex: 0.1,
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
-        justifyContent: 'space-between'
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
     text1: {
         marginLeft: 15,
@@ -514,21 +524,16 @@ const styles = StyleSheet.create({
     },
     messege_icon: {
         marginLeft: 32,
-        marginTop: 21,
-        marginBottom: 42,
-        color: 'black',
     },
     home_icon: {
-        marginTop: 21,
+        
     },
     plus_icon: {
-        marginTop: 21,
+        
     },
     save_icon: {
-        marginTop: 21,
     },
     profile_icon: {
-        marginTop: 21,
         marginRight: 29,
         
     },
