@@ -22,11 +22,19 @@ const StudendNumberLoginScreen = ({navigation}) => {
     // 회원정보 기본데이터를 UserInfoDefaultData 변수로 선언 (로그인 성공하면 학번, 학과, 이름 값을 넣을 예정 (티켓 생성 할때 유용 할것 같다,))
     const UserInfoDefaultData = UserInfo.UserInfo[0];
 
+    useEffect(() => {
+      console.log("useEffect 호출");
+      Read();
+      console.log("useEffect에서 Read 호출");
+      SignIn();
+      console.log("useEffect SignIn 호출");
+    }, []);
+
     // firebase db 회원정보 불러오기, 로그인 기능 포함
     const Read = () => {
       // 회원정보 문서 db 불러오기
       const myDoc = doc(db, 'CollectionNameCarpoolTicket', 'UserInfo'); 
-
+      
       getDoc(myDoc)
       .then((snapshot) => {
         if (snapshot.exists) {
@@ -50,24 +58,18 @@ const StudendNumberLoginScreen = ({navigation}) => {
       .catch((error) => alert(error.messeage));
     }
     
-    /*
-    // useEffect
-    useEffect (() => {
-      Read(); // Firebase의 문서들을 불러온다.
-    },[]);
-    */
 
-    /*
+    
     // 로그인 기능 함수
     const SignIn = () => {
       for (let i = 0; i < userInfoDatas.length; i++) {
-        Read();
+        //Read();
         if (userInfoDatas[i].student_number === studentNumber && userInfoDatas[i].password === password) {
           SetSignIn(true);
         }
       }
     };
-*/
+
 
     return (
     <View style={styles.container}>
@@ -93,6 +95,7 @@ const StudendNumberLoginScreen = ({navigation}) => {
           () => {
             // 로그인 (학번을 보고 읽어온 회원 db를 하나씩 비교하는 알고리즘으로 설계 하였다.)
             Read();
+            SignIn();
             if (signIn === true) {
               alert("로그인 성공");
               navigation.navigate("Main");

@@ -48,13 +48,13 @@ export default function SignUpScreen({navigation}) {
 
             // 회원 정보 입력 다했으므로 원래대로 초기화 해야한다.
             // 학번, 비밀번호, 학년, 학과 등등 공백으로 선언
-            SetStudentNumber(""); 
-            SetPassword(0);
-            SetGrade(0);
-            SetDepartment("");
-            SetNickname("");
-            SetResidence("");
-            SetEmail("");
+            // SetStudentNumber(""); 
+            // SetPassword(0);
+            // SetGrade(0);
+            // SetDepartment("");
+            // SetNickname("");
+            // SetResidence("");
+            // SetEmail("");
 
             // 회원가입 성공하면 학번로그인 페이지로 넘어가주는 부분
             navigation.navigate("StudendNumberLoginScreen");

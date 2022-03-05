@@ -33,7 +33,7 @@ export default function Main({ navigation }) { // 정보 메인 부분
     const [ all_selecting, setAllSelect ] = useState(false);
     const [ carpool_selecting, setCarpoolSelect ] = useState(true); // 카풀 선택일때 true, 아니면 false
     const [ taxi_selecting, setTaxiSelect ] = useState(false); //택시 선택일때 true, 아니면 false
-    const [ likeButton, setLikeButton ] = useState(0);
+    //const [ likeButton, setLikeButton ] = useState(0);
     const [ startInputText, setStartInputText ] = useState(''); // 출발지점 입력부분 state 값
     const [ endInputText, setEndInputText ] = useState(''); // 출발지점 입력부분 state 값
 
@@ -104,8 +104,8 @@ export default function Main({ navigation }) { // 정보 메인 부분
                 else {
                     docData.CarpoolTicket[0].ticket_name = "택시";
                 }
-                docData.CarpoolTicket[0].nickname = "Son";
-                docData.CarpoolTicket[0].department = "항공소프트웨어공학과"
+                docData.CarpoolTicket[0].nickname = UserInfo.UserInfo[0].nickname;
+                docData.CarpoolTicket[0].department = UserInfo.UserInfo[0].department
                 docData.CarpoolTicket[0].arrival_area = startInputText; // 출발지
                 docData.CarpoolTicket[0].depart_area = endInputText; // 도착지
                 docData.CarpoolTicket[0].departure_time = "09:30";
